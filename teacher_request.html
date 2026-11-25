@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подать заявку - Преподаватель</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-image: url('background.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; color: white; }
+        
+        header { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 0 40px; height: 70px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        header h1 { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        header h1 i { color: #4ade80; font-size: 24px; }
+        .user-info { display: flex; align-items: center; gap: 20px; font-size: 14px; font-weight: 500; }
+        .logout-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: 0.2s; text-decoration: none; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+        .logout-btn:hover { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #fca5a5; }
+
+        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; color: #cbd5e1; text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; }
+        .back-link:hover { color: #4ade80; }
+        
+        .form-container { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); padding: 35px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .form-container h2 { margin-bottom: 25px; color: white; font-size: 24px; display: flex; align-items: center; gap: 10px; }
+        .form-container h2 i { color: #4ade80; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #cbd5e1; font-size: 14px; }
+        
+        /* Стили применяются и к select, и к input */
+        .form-group select, .form-group input { 
+            width: 100%; padding: 14px; border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 10px; outline: none; font-size: 15px; color: white;
+            background: rgba(0, 0, 0, 0.2); transition: 0.2s;
+        }
+        .form-group select:focus, .form-group input:focus { border-color: #4ade80; background: rgba(0, 0, 0, 0.4); box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.1); }
+        
+        .btn { padding: 14px 24px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn-primary { background: #4ade80; color: #064e3b; width: 100%; justify-content: center; box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3); }
+        .btn-primary:hover { background: #22c55e; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4); }
+        
+        .success-msg { display: none; background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); padding: 15px; border-radius: 10px; margin-top: 20px; text-align: center; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><i class="fas fa-cubes"></i> Управление складом</h1>
+        <div class="user-info">
+            <span style="color: #4ade80; background: rgba(74, 222, 128, 0.1); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(74, 222, 128, 0.2);">Преподаватель</span>
+            <a href="login.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="dashboard.html" class="back-link"><i class="fas fa-arrow-left"></i> Вернуться на главную</a>
+        <div class="form-container">
+            <h2><i class="fas fa-paper-plane"></i> Новая заявка на материалы</h2>
+            <form id="requestForm" onsubmit="submitRequest(event)">
+                
+                <div class="form-group">
+                    <label>Выберите товар или впишите свой</label>
+                    <!-- Заменили select на input с datalist -->
+                    <input type="text" id="productSelect" list="productList" placeholder="Начните вводить название..." required autocomplete="off">
+                    <datalist id="productList">
+                        <option value='Бумага А4 "Снегурочка"'></option>
+                        <option value="Ручка шариковая синяя"></option>
+                        <option value="Проектор Epson"></option>
+                        <option value="Тетрадь 48 л."></option>
+                    </datalist>
+                </div>
+
+                <div class="form-group">
+                    <label>Количество</label>
+                    <input type="number" id="qtyInput" min="1" value="1" required>
+                </div>
+                <div class="form-group">
+                    <label>Комментарий (необязательно)</label>
+                    <input type="text" id="commentInput" placeholder="Например: для открытого урока">
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Отправить заявку кладовщику</button>
+            </form>
+            <div class="success-msg" id="successMessage">
+                <i class="fas fa-check-circle"></i> Заявка успешно отправлена! Кладовщик её увидит.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function submitRequest(event) {
+            event.preventDefault();
+            
+            const product = document.getElementById('productSelect').value;
+            const qty = document.getElementById('qtyInput').value;
+            const comment = document.getElementById('commentInput').value;
+
+            // Получаем текущие заявки из памяти или создаем пустой массив
+            let requests = JSON.parse(localStorage.getItem('warehouseRequests')) || [];
+            
+            // Создаем новую заявку
+            const newRequest = {
+                id: Date.now(), // Уникальный ID на основе времени
+                date: new Date().toLocaleDateString('ru-RU'),
+                author: "Иванова А.С. (Преподаватель)", 
+                product: product,
+                qty: qty,
+                comment: comment,
+                status: "wait" // wait - ожидает, ok - выдано, cancel - отклонено
+            };
+
+            // Добавляем и сохраняем
+            requests.push(newRequest);
+            localStorage.setItem('warehouseRequests', JSON.stringify(requests));
+
+            // Показываем сообщение об успехе
+            const msg = document.getElementById('successMessage');
+            msg.style.display = 'block';
+            document.getElementById('requestForm').reset();
+            setTimeout(() => { msg.style.display = 'none'; }, 4000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в систему - Складской учет</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* Подключаем нашу картинку как фон */
+            background-image: url('bg.jpg');
+            /* Растягиваем на весь экран и фиксируем */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Эффект матового стекла для формы */
+        .login-container {
+            background: rgba(15, 23, 42, 0.75); /* Темно-синий полупрозрачный фон */
+            backdrop-filter: blur(12px); /* Размытие того, что за формой */
+            -webkit-backdrop-filter: blur(12px);
+            padding: 45px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .login-header { text-align: center; margin-bottom: 35px; }
+        .login-header h2 { color: #ffffff; font-size: 26px; font-weight: 700; margin-bottom: 8px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .login-header h2 i { color: #4ade80; /* Салатовый акцент под цвет листьев */ }
+        .login-header p { color: #94a3b8; font-size: 14px; }
+
+        /* Переключатель ролей */
+        .role-selector { display: flex; justify-content: space-between; margin-bottom: 30px; gap: 12px; }
+        .role-btn {
+            flex: 1; padding: 15px 5px; border: 2px solid rgba(255, 255, 255, 0.1); 
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px; cursor: pointer; text-align: center; font-size: 12px;
+            font-weight: 600; color: #cbd5e1; transition: all 0.3s ease;
+        }
+        .role-btn i { display: block; font-size: 22px; margin-bottom: 8px; transition: 0.3s; color: #94a3b8; }
+        .role-btn:hover { border-color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.1); }
+        
+        .role-btn.active {
+            border-color: #4ade80; background: rgba(74, 222, 128, 0.1); color: #ffffff;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.2); transform: translateY(-2px);
+        }
+        .role-btn.active i { color: #4ade80; }
+
+        /* Поля ввода */
+        .input-group { margin-bottom: 22px; }
+        .input-group label { display: block; margin-bottom: 8px; color: #cbd5e1; font-size: 13px; font-weight: 500; }
+        .input-wrapper { position: relative; }
+        .input-wrapper i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; }
+        
+        .input-wrapper input {
+            width: 100%; padding: 14px 16px 14px 45px; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px; outline: none; font-size: 15px; color: #ffffff;
+            transition: all 0.3s ease; background: rgba(0, 0, 0, 0.2);
+        }
+        .input-wrapper input::placeholder { color: #64748b; }
+        .input-wrapper input:focus { 
+            border-color: #4ade80; 
+            background: rgba(0, 0, 0, 0.4); 
+            box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.1); 
+        }
+        .input-wrapper input.error { border-color: #ef4444; background-color: rgba(239, 68, 68, 0.1); }
+
+        .error-text { color: #ef4444; font-size: 13px; margin-top: 6px; display: none; font-weight: 500; }
+
+        /* Кнопка входа */
+        .login-btn {
+            width: 100%; padding: 16px; background: #4ade80;
+            color: #064e3b; border: none; border-radius: 12px; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: all 0.3s ease; margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+        }
+        .login-btn:hover { transform: translateY(-2px); background: #22c55e; box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4); }
+
+        /* Блок с подсказками */
+        .hint {
+            margin-top: 25px; text-align: center; font-size: 12px; color: #94a3b8;
+            background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 10px; line-height: 1.6;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .hint code { color: #4ade80; background: rgba(74, 222, 128, 0.1); padding: 2px 6px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-header">
+        <h2><i class="fas fa-boxes"></i> Складской учет</h2>
+        <p>Авторизация в системе колледжа</p>
+    </div>
+
+    <div class="role-selector" id="roleSelector">
+        <div class="role-btn active" data-role="admin" onclick="selectRole(this)">
+            <i class="fas fa-warehouse"></i> Кладовщик
+        </div>
+        <div class="role-btn" data-role="teacher" onclick="selectRole(this)">
+            <i class="fas fa-chalkboard-teacher"></i> Преподаватель
+        </div>
+        <div class="role-btn" data-role="management" onclick="selectRole(this)">
+            <i class="fas fa-user-tie"></i> Руководство
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label>Логин</label>
+        <div class="input-wrapper">
+            <i class="fas fa-user"></i>
+            <input type="text" id="loginInput" placeholder="Введите логин">
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label>Пароль</label>
+        <div class="input-wrapper">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="passwordInput" placeholder="Введите пароль">
+        </div>
+        <div class="error-text" id="errorMessage">Неверный логин или пароль</div>
+    </div>
+
+    <button class="login-btn" onclick="checkLogin()">Войти в систему</button>
+
+    <div class="hint">
+        <b>Доступ для тестирования:</b><br>
+        Кладовщик: <code>admin</code> / <code>1234</code><br>
+        Преподаватель: <code>teacher</code> / <code>1234</code><br>
+        Руководство: <code>boss</code> / <code>1234</code>
+    </div>
+</div>
+
+<script>
+    let currentRole = "admin";
+    function selectRole(element) {
+        document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+        element.classList.add('active');
+        currentRole = element.getAttribute('data-role');
+        resetErrors();
+    }
+    function resetErrors() {
+        document.getElementById('loginInput').classList.remove('error');
+        document.getElementById('passwordInput').classList.remove('error');
+        document.getElementById('errorMessage').style.display = 'none';
+    }
+    function checkLogin() {
+        resetErrors();
+        const login = document.getElementById('loginInput').value.trim();
+        const password = document.getElementById('passwordInput').value.trim();
+        let isValid = false;
+
+        if (currentRole === 'admin' && login === 'admin' && password === '1234') isValid = true;
+        if (currentRole === 'teacher' && login === 'teacher' && password === '1234') isValid = true;
+        if (currentRole === 'management' && login === 'boss' && password === '1234') isValid = true;
+
+        if (isValid) {
+            localStorage.setItem('userRole', currentRole);
+            window.location.href = 'dashboard.html';
+        } else {
+            document.getElementById('loginInput').classList.add('error');
+            document.getElementById('passwordInput').classList.add('error');
+            document.getElementById('errorMessage').style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>

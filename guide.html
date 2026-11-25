@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Руководство пользователя - Склад</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-image: url('background.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; color: white; }
+        
+        header { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 0 40px; height: 70px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        header h1 { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        header h1 i { color: #4ade80; font-size: 24px; }
+        .user-info { display: flex; align-items: center; gap: 20px; font-size: 14px; font-weight: 500; }
+        .logout-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: 0.2s; text-decoration: none; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+        .logout-btn:hover { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #fca5a5; }
+
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; color: #cbd5e1; text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; }
+        .back-link:hover { color: #4ade80; }
+        
+        .content-box { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); padding: 40px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        h2 { color: #4ade80; margin-bottom: 25px; font-size: 28px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        h3 { color: white; margin-top: 25px; margin-bottom: 15px; font-size: 20px; }
+        p { color: #cbd5e1; line-height: 1.6; margin-bottom: 15px; }
+        ul { margin-left: 20px; margin-bottom: 20px; color: #cbd5e1; line-height: 1.8; }
+        .highlight { color: #4ade80; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><i class="fas fa-cubes"></i> Управление складом</h1>
+        <div class="user-info">
+            <span style="color: #4ade80; background: rgba(74, 222, 128, 0.1); padding: 6px 12px; border-radius: 20px;">Помощь</span>
+            <a href="dashboard.html" class="logout-btn" style="background: rgba(74, 222, 128, 0.2); border-color: #4ade80; color: white;"><i class="fas fa-arrow-left"></i> На главную</a>
+            <a href="login.html" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="content-box">
+            <h2><i class="fas fa-info-circle"></i> Руководство пользователя</h2>
+            <p>Добро пожаловать в систему управления складскими остатками! Здесь вы найдете инструкции по работе с разделами системы в зависимости от вашей роли.</p>
+
+            <h3>1. Для кладовщика</h3>
+            <ul>
+                <li><b>Справочник товаров:</b> Нажмите кнопку <span class="highlight">«Добавить товар»</span>, чтобы внести новую позицию. Укажите название, категорию, остаток и минимальный запас. Если товара станет меньше минимума, система подсветит его красным. Товары можно удалять (кнопка-корзина).</li>
+                <li><b>Заявки преподавателей:</b> Здесь отображаются заявки от учителей. Нажмите <span class="highlight">«Выдать»</span>, если товар есть, или <span class="highlight">«Отклонить»</span>, если его нет. Если нажали случайно — используйте кнопку <span class="highlight">«Вернуть»</span>.</li>
+                <li><b>Отчеты:</b> Просмотр статистики и имитация скачивания отчета в Excel.</li>
+            </ul>
+
+            <h3>2. Для преподавателя</h3>
+            <ul>
+                <li><b>Просмотр склада:</b> Проверьте, какие товары есть в наличии. Редактировать их нельзя.</li>
+                <li><b>Подать заявку:</b> Выберите нужный товар из списка, укажите количество и нажмите «Отправить». Заявка мгновенно попадет к кладовщику.</li>
+            </ul>
+
+            <h3>3. Для руководства</h3>
+            <ul>
+                <li><b>Общие отчеты:</b> Сводная статистика по расходам и операциям за период.</li>
+                <li><b>Сотрудники:</b> Список всех пользователей системы с их ролями и статусами.</li>
+            </ul>
+
+            <h3><i class="fas fa-lightbulb"></i> Тестовые аккаунты</h3>
+            <p>Для проверки работы используйте следующие данные:</p>
+            <ul>
+                <li>Кладовщик: <b>admin</b> / <b>1234</b></li>
+                <li>Преподаватель: <b>teacher</b> / <b>1234</b></li>
+                <li>Руководство: <b>boss</b> / <b>1234</b></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
